@@ -5,11 +5,13 @@ import {
   decrement,
   increment,
   incrementByAmount,
-  incrementAsync,
-  incrementIfOdd,
   selectCount,
 } from './counterSlice';
-import styles from './Counter.module.css';
+import {Box, Button, Paper, styled, TextField, Typography} from "@mui/material";
+
+const StyledPaper = styled(Paper)({
+  padding: '20px',
+})
 
 export function Counter() {
   const count = useAppSelector(selectCount);
@@ -19,50 +21,31 @@ export function Counter() {
   const incrementValue = Number(incrementAmount) || 0;
 
   return (
-    <div>
-      <div className={styles.row}>
-        <button
-          className={styles.button}
-          aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
-        >
+    <StyledPaper elevation={3}>
+      <Box sx={{ display: 'flex', gap: '20px', justifyContent: 'center', mb: 5 }}>
+        <Button variant={'contained'} color={'error'} onClick={() => dispatch(decrement())}>
           -
-        </button>
-        <span className={styles.value}>{count}</span>
-        <button
-          className={styles.button}
-          aria-label="Increment value"
-          onClick={() => dispatch(increment())}
-        >
+        </Button>
+        <Typography component={'span'} variant={'h5'} >{count}</Typography>
+        <Button variant={'contained'} color={'success'} onClick={() => dispatch(increment())}>
           +
-        </button>
-      </div>
-      <div className={styles.row}>
-        <input
-          className={styles.textbox}
-          aria-label="Set increment amount"
+        </Button>
+      </Box>
+      <Box sx={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+        <TextField
+          label={'Amount'}
+          size={'small'}
+          variant={'outlined'}
           value={incrementAmount}
           onChange={(e) => setIncrementAmount(e.target.value)}
         />
-        <button
-          className={styles.button}
+        <Button
+          variant={'contained'}
           onClick={() => dispatch(incrementByAmount(incrementValue))}
         >
           Add Amount
-        </button>
-        <button
-          className={styles.asyncButton}
-          onClick={() => dispatch(incrementAsync(incrementValue))}
-        >
-          Add Async
-        </button>
-        <button
-          className={styles.button}
-          onClick={() => dispatch(incrementIfOdd(incrementValue))}
-        >
-          Add If Odd
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Box>
+    </StyledPaper>
   );
 }
